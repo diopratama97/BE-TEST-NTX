@@ -5,12 +5,14 @@ const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
   dialect: config.dialect,
   operatorsAliases: false,
-
+  port: config.PORT,
   pool: {
     max: config.pool.max,
     min: config.pool.min,
     acquire: config.pool.acquire,
     idle: config.pool.idle,
+    idleTimeoutMillis: 0,
+    connectionTimeoutMillis: 0,
   },
 });
 
@@ -20,19 +22,21 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // define model example
-// db.user = require("../models/User")(sequelize, Sequelize);
+db.attacker = require("./Attackers")(sequelize, Sequelize);
+db.users = require("./Users")(sequelize, Sequelize);
+db.survey = require("./Surveys")(sequelize, Sequelize);
 
 // relation example
-// relation between role and user
-// db.role.hasMany(db.user, {
+// relation between survey and user
+// db.users.hasMany(db.survey, {
 //   as: "users",
 //   onDelete: "cascade",
 //   onUpdate: "cascade",
 // });
 
-// db.user.belongsTo(db.role, {
-//   foreignKey: "roleId",
-//   as: "role",
-// });
+db.survey.belongsTo(db.users, {
+  foreignKey: "userId",
+  as: "survey",
+});
 
 module.exports = db;

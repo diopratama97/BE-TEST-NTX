@@ -9,7 +9,9 @@
   "author": "daffaquraisy",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
@@ -18,10 +20,12 @@
     "express-fileupload": "^1.3.1",
     "express-validator": "^6.14.0",
     "fs": "0.0.1-security",
+    "joi": "^17.10.2",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "sequelize": "^6.16.0",
+    "uuid": "^9.0.1",
     "ws": "^8.13.0"
   }
 }

@@ -20,15 +20,18 @@ CREATE TABLE public.users (
 	dosurvey bool NULL DEFAULT false,
 	dofeedback bool NULL DEFAULT false,
 	fullname varchar(255) NULL,
+	role varchar(50) NULL,
+	password text NULL,
 	"cuurentLeave" int4 NULL,
 	CONSTRAINT users_digits_key UNIQUE (digits),
 	CONSTRAINT users_pkey PRIMARY KEY (id)
 );
 
-INSERT INTO public.users ("id",digits,"fotoUrl","workType","positionTitle",lat,lon,company,"isLogin","createdAt","updatedAt",dovote,dosurvey,dofeedback,fullname,"cuurentLeave") VALUES
-	 (1,'DFA','','WFO',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33+07','2022-12-22 21:05:32.377+07',true,true,false,'M. Daffa Quraisy',0),
-	 (2,'HTA','','WFH',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33+07','2022-12-22 15:04:01.302+07',true,true,false,'R. Hernanta Subagya',0),
-	 (3,'HFW','','WFO',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33.226343+07','2022-12-22 15:03:46.848+07',true,false,false,'Hafidz Wibowo',0);
+INSERT INTO public."Users" ("id",digits,"fotoUrl","workType","positionTitle",lat,lon,company,"isLogin","createdAt","updatedAt",dovote,dosurvey,dofeedback,fullname,"currentLeave","role","password") VALUES
+	 (1,'DFA','','WFO',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33+07','2022-12-22 21:05:32.377+07',true,true,false,'M. Daffa Quraisy',0,'EMPLOYE','$2b$10$kITjAc9FHd2Hn06F8HkQSe.LB8MjpjxfHTLx9.DygRN.5AGPn1tcO'),
+	 (2,'HTA','','WFH',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33+07','2022-12-22 15:04:01.302+07',true,true,false,'R. Hernanta Subagya',0,'EMPLOYE','$2b$10$kITjAc9FHd2Hn06F8HkQSe.LB8MjpjxfHTLx9.DygRN.5AGPn1tcO'),
+	 (3,'HFW','','WFO',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33.226343+07','2022-12-22 15:03:46.848+07',true,false,false,'Hafidz Wibowo',0,'EMPLOYE','$2b$10$kITjAc9FHd2Hn06F8HkQSe.LB8MjpjxfHTLx9.DygRN.5AGPn1tcO'),
+	 (4,'ADM','','WFO',NULL,0.0,0.0,'NTX',true,'2021-12-15 15:06:33.226343+07','2022-12-22 15:03:46.848+07',true,false,false,'Admin server',0,'ADMIN','$2b$10$kITjAc9FHd2Hn06F8HkQSe.LB8MjpjxfHTLx9.DygRN.5AGPn1tcO');
 
 -- public.surveys definition
 
