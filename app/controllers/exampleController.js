@@ -88,7 +88,7 @@ exports.refactoreMe2 = async (req, res) => {
 
 exports.callmeWebSocket = async () => {
   const data = await axios.get(
-    "https://livethreatmap.radware.com/api/map/attacks?limit=1"
+    "https://livethreatmap.radware.com/api/map/attacks?limit=10"
   );
 
   data.data.map((i) => {
