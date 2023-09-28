@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentations",
+    "description": "Daftar Api Test Backend NTX",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Dio Y.Pratama",
+      "email": "dyopratama6@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "",
+      "description": "This Host"
+    }
+  ],
+
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication"
+    },
+    {
+      "name": "Survey",
+      "description": "Data Survey"
+    },
+    {
+      "name": "Fetch Api",
+      "description": "Data Fetch API from external API"
+    }
+  ],
+
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register Account For role ADMIN",
+        "operationId": "Register",
+        "description": "Register Account Employee for ADMIN",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "digits": {
+                    "type": "string"
+                  },
+                  "fotoUrl": {
+                    "type": "string"
+                  },
+                  "workType": {
+                    "type": "string"
+                  },
+                  "positionTitle": {
+                    "type": "string"
+                  },
+                  "lat": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "lon": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "fullname": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Users create!",
+                      "success": true,
+                      "data": {
+                        "digits": "QWE",
+                        "fotoUrl": "string",
+                        "workType": "WFH",
+                        "positionTitle": "string",
+                        "lat": 0,
+                        "lon": 0,
+                        "company": "string",
+                        "fullname": "string",
+                        "role": "EMPLOYE",
+                        "password": "1234"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (Invalid request body)"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Duplicated"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "login",
+        "description": "Login For get Token",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "digits": {
+                    "type": "string",
+                    "example": "DTF"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
+                },
+                "required": ["digits", "password"]
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "statusCode": 200,
+                      "success": true,
+                      "data": {
+                        "userId": 5,
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZnVsbG5hbWUiOiJESU8iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTU4NjkzNjEsImV4cCI6MTY5NTg3MTE2MX0.0G4HvaHizrMTRDZOZ3OY3-Mlji0tPP1N4UL8ZAlJ9gI"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (Invalid request body)"
+          },
+          "404": {
+            "description": "Not Found (User not found or OAuth not valid)"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/data/survey": {
+      "get": {
+        "summary": "Get data survey",
+        "tags": ["Survey"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "statusCode": 200,
+                      "success": true,
+                      "data": [
+                        {
+                          "id": 1,
+                          "values": "{20,30}",
+                          "userId": 5,
+                          "createdAt": "2023-09-28T09:41:00.859Z",
+                          "updatedAt": "2023-09-28T09:41:00.859Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "description": "Get All Data Survey",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "operationId": "GetAllDataSurvey"
+      },
+      "post": {
+        "summary": "Insert Survey",
+        "tags": ["Survey"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "required": ["values", "userId"]
+              }
+            }
+          },
+          "description": ""
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "statusCode": 201,
+                      "message": "Survey sent successfully!",
+                      "success": true,
+                      "data": {
+                        "userId": 5,
+                        "values": [20, 30]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "description": "Insert Survey",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "operationId": "InsertSurvey"
+      }
+    },
+    "/api/data/fetch-api": {
+      "get": {
+        "summary": "Get data from external API after insert in database",
+        "tags": ["Fetch Api"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "success": true,
+                      "statusCode": 200,
+                      "data": {
+                        "label": [
+                          "destinationCountry: IN type: intruders",
+                          "sourceCountry: NL type: scanners"
+                        ],
+                        "total": [10, 20]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "description": "Get data from external API after insert in database",
+        "operationId": "GetAllDataFetch"
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ module.exports = (sequelize, Sequelize) => {
       millisecond: { type: Sequelize.INTEGER },
       type: { type: Sequelize.STRING(50) },
       weight: { type: Sequelize.INTEGER },
+      attackTime: { type: Sequelize.DATE },
     },
     { timestamps: false, freezeTableName: true }
   );

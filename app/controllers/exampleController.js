@@ -1,6 +1,8 @@
 const db = require("../models");
 const { QueryTypes, Op } = require("sequelize");
+const axios = require("axios");
 const { createSurvey } = require("../validation/survey.validation");
+const { v4: uuidv4 } = require("uuid");
 
 exports.refactoreMe1 = async (req, res) => {
   // function ini sebenarnya adalah hasil survey dri beberapa pertnayaan, yang mana nilai dri jawaban tsb akan di store pada array seperti yang ada di dataset
@@ -84,27 +86,71 @@ exports.refactoreMe2 = async (req, res) => {
   }
 };
 
-exports.callmeWebSocket = async (req, res) => {
-  db.sequelize
-    .query(`select * from "Attackers"`)
-    .then((data) => {
-      console.log(data[0]);
-      res.status(200).send({
-        statusCode: 200,
-        success: true,
-        data,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        statusCode: 500,
-        message: "Cannot post survey.",
-        success: false,
+exports.callmeWebSocket = async () => {
+  const data = await axios.get(
+    "https://livethreatmap.radware.com/api/map/attacks?limit=1"
+  );
+
+  data.data.map((i) => {
+    i.map(async (x) => {
+      const sql = `INSERT INTO "Attackers" ("id", "sourceCountry","destinationCountry","millisecond","type","weight","attackTime")
+         VALUES ('${uuidv4()}','${x.sourceCountry}','${x.destinationCountry}',${
+        x.millisecond
+      },'${x.type}',${x.weight},'${x.attackTime}');`;
+
+      await db.sequelize.query(sql, {
+        type: QueryTypes.INSERT,
       });
     });
+  });
 };
 
-exports.getData = (req, res) => {
-  // do something
+exports.getData = async (req, res) => {
+  try {
+    const label = [];
+    const total = [];
+
+    const [destinationCountry, sourceCountry] = await Promise.all([
+      db.sequelize.query(
+        `select count('a.id') as total_destination,a."destinationCountry" , a."type"  from "Attackers" a group by a."destinationCountry" , a."type" `,
+        {
+          type: QueryTypes.SELECT,
+        }
+      ),
+      db.sequelize.query(
+        `select count('a.id') as total_source,a."sourceCountry" , a."type"  from "Attackers" a group by a."sourceCountry" , a."type" `,
+        {
+          type: QueryTypes.SELECT,
+        }
+      ),
+    ]);
+
+    await Promise.all(
+      destinationCountry.map((i) => {
+        label.push(
+          `destinationCountry: ${i.destinationCountry} type: ${i.type}`
+        );
+        total.push(Number(i.total_destination));
+      }),
+      sourceCountry.map((x) => {
+        label.push(`sourceCountry: ${x.sourceCountry} type: ${x.type}`);
+        total.push(Number(x.total_source));
+      })
+    );
+
+    return res.status(200).send({
+      success: true,
+      statusCode: 200,
+      data: {
+        label,
+        total,
+      },
+    });
+  } catch (error) {
+    return res.status(500).send({
+      statusCode: 500,
+      message: "Internal server error",
+      success: false,
+    });
+  }
 };

@@ -1,6 +1,8 @@
 const { exampleMiddleware } = require("../middleware");
 const exampleController = require("../controllers/exampleController");
 const userController = require("../controllers/usersController");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../swagger/swagger.json");
 
 module.exports = (app) => {
   app.use((req, res, next) => {
@@ -32,6 +34,12 @@ module.exports = (app) => {
     exampleMiddleware.exampleMiddlewareFunction(),
     userController.register
   );
+
+  //get Data from fetch api
+  router.get("/data/fetch-api", exampleController.getData);
+
+  router.use("/docs", swaggerUi.serve);
+  router.get("/docs", swaggerUi.setup(swaggerDocument));
 
   app.use("/api", router);
 };
