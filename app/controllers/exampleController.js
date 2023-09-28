@@ -3,6 +3,14 @@ const { QueryTypes, Op } = require("sequelize");
 const axios = require("axios");
 const { createSurvey } = require("../validation/survey.validation");
 const { v4: uuidv4 } = require("uuid");
+const redis = require("redis");
+
+let client = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: Number(process.env.REDIS_PORT),
+  password: process.env.REDIS_PASSWORD,
+});
+client.connect();
 
 exports.refactoreMe1 = async (req, res) => {
   // function ini sebenarnya adalah hasil survey dri beberapa pertnayaan, yang mana nilai dri jawaban tsb akan di store pada array seperti yang ada di dataset
@@ -136,6 +144,12 @@ exports.getData = async (req, res) => {
         label.push(`sourceCountry: ${x.sourceCountry} type: ${x.type}`);
         total.push(Number(x.total_source));
       })
+    );
+
+    await client.setEx(
+      "redis-fetch-api",
+      180,
+      JSON.stringify({ label, total })
     );
 
     return res.status(200).send({

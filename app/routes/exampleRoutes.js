@@ -1,4 +1,4 @@
-const { exampleMiddleware } = require("../middleware");
+const { exampleMiddleware, cacheMiddleware } = require("../middleware");
 const exampleController = require("../controllers/exampleController");
 const userController = require("../controllers/usersController");
 const swaggerUi = require("swagger-ui-express");
@@ -36,7 +36,11 @@ module.exports = (app) => {
   );
 
   //get Data from fetch api
-  router.get("/data/fetch-api", exampleController.getData);
+  router.get(
+    "/data/fetch-api",
+    cacheMiddleware.cache,
+    exampleController.getData
+  );
 
   router.use("/docs", swaggerUi.serve);
   router.get("/docs", swaggerUi.setup(swaggerDocument));

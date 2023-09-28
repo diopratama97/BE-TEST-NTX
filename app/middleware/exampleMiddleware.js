@@ -1,4 +1,3 @@
-const db = require("../models");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
 // const model = db.model;

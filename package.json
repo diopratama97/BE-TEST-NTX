@@ -25,6 +25,7 @@
     "node-cron": "^3.0.2",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
+    "redis": "^4.6.10",
     "sequelize": "^6.16.0",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",

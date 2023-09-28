@@ -7,6 +7,7 @@ dotenv.config();
 const app = express();
 const db = require("./app/models");
 const schedule = require("./app/schedule");
+const redis = require("redis");
 
 const corsOptions = {
   origin: ["http://localhost:8080"],
@@ -24,7 +25,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 db.sequelize.sync();
 
 //schedule
-// schedule(cron);
+schedule(cron);
+
+//redis
+let client = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: Number(process.env.REDIS_PORT),
+  password: process.env.REDIS_PASSWORD,
+});
+
+client.on("error", (err) => {
+  console.log(err);
+});
 
 // never enable the code below in production
 // force: true will drop the table if it already exists
@@ -45,4 +57,7 @@ require("./app/routes/exampleRoutes")(app);
 const PORT = process.env.PORT || 7878;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+  client.connect().then(() => {
+    console.log("Redis is connected");
+  });
 });
