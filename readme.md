@@ -38,6 +38,8 @@
 
 6. Buatkan unit test untuk mentest si endpoint berjalan dengan baik.
 
+#### Jawaban: Untuk poin nomer 6 belum selesai, dikarenakan saya belum pernah pakai unit testing seperti JEST atau SUPERTEST jadi perlu waktu untuk explore dan mencoba terlebih dahulu.
+
 7. Push hasil test ini di github mu
 
 ### untuk validasi data payload maupun dari params nya saya pakai Library Joi validation
