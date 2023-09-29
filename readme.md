@@ -4,7 +4,7 @@
 
 1. Refactore function yang bernama refactoreMe1 dan refactoreMe2 (wajib memakai query native) menjadi jauh lebih mudah di baca, datasset nya sudah di sediakan di folder files
 
-## Jawaban = Untuk poin nomer 1 sudah selesai, ada di endpoint: /api/data/survey method GET dan method POST
+#### Jawaban = Untuk poin nomer 1 sudah selesai, ada di endpoint: /api/data/survey method GET dan method POST
 
 2. Buat endpoint berbasis websocket untuk memfecth data dari api https://livethreatmap.radware.com/api/map/attacks?limit=10 yang mana dia akan memfetch 3 menit sekali (tulis code mu di callmeWebSocket function)
 
